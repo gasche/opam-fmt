@@ -1,0 +1,10 @@
+opam-version: "1.2"
+name: "opam-fmt"
+version: "0.1"
+maintainer: "gabriel.scherer@gmail.com"
+homepage: "https://github.com/gasche/opam-fmt"
+license: "LGPL-2.1+"
+build: [make "native"]
+depends: [
+  "opam-lib" {>= "1.2.0" & < "1.3"}
+]
