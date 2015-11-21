@@ -99,7 +99,9 @@ let reformat_file src_file =
   let opam = OPAM.read src in
   let file_version = OPAM.opam_version opam in
   let curr_version = OpamVersion.current_nopatch in
-  if OpamVersion.compare curr_version file_version < 0
+  (* note: we use [current_nopatch] as the current version, but only
+     give up on future version if they are strictly after [current]. *)
+  if OpamVersion.compare OpamVersion.current file_version < 0
   then Future_opam_version file_version
   else with_tmp_file (fun dst ->
       let opam = OPAM.with_opam_version opam curr_version in

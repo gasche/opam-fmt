@@ -67,3 +67,35 @@ fields, or a nice alignment heuristic. And then it could benefit other
 users as well.
 
 Happy reformatting or not.
+
+
+## `opam fmt` and the `opam-version` field
+
+`opam fmt` is built against a single version of the opam software
+libraries. To know which, run the command
+```
+opam fmt --version
+```
+
+Opam files themselves are versioned. It would be rather bad for `opam
+fmt` to try to work with files for another version than its own, as it
+could either not-understand new features of opam files (if they are
+more recent than `opam fmt`), or reformat them in a way unsupported by
+older opam versions (if they are older than `opam fmt`).
+
+We use the following strategy:
+
+- if the opam file given to `opam fmt` uses a more recent opam
+  version, it will refuse to process it -- just skip it
+
+- if the opam file given to `opam fmt` uses an older opam version, it
+  will reformat it but also upgrade it to its own opam version in the
+  process
+
+Remark: In theory, it would be possible to build many different
+versions of the opam libraries in parallel, and thus support any of
+those opam versions to process opam files for the corresponding
+version without forcing an upgrade. However, this is currently
+impractical for a simple reason: the opam software libraries are
+packaged in a way that makes it impossible to installed two different
+versions in parallel.
